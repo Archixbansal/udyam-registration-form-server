@@ -1,11 +1,10 @@
-// server/index.test.js
+
 const request = require('supertest');
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
 
-// Set up a mock Express app for testing with the validation logic from index.js
 const validateFormData = (data) => {
   const { aadhaar, name, organizationType, pan } = data;
 
@@ -21,8 +20,7 @@ const validateFormData = (data) => {
   if (!pan || !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan)) {
     return { error: 'Invalid PAN Number' };
   }
-  return null; // Return null if validation passes
-};
+  return null; 
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -72,13 +70,12 @@ describe('POST /api/submit-form', () => {
     expect(response.body.message).toBe('Invalid Aadhaar Number');
   });
 
-  // Test 3: Unsuccessful submission with invalid PAN data
   it('should return a 400 status for invalid PAN data', async () => {
     const invalidFormData = {
       aadhaar: '123456789012',
       name: 'John Doe',
       organizationType: 'Proprietorship',
-      pan: 'INVALIDPAN', // Invalid PAN number
+      pan: 'INVALIDPAN', 
     };
     const response = await request(app)
       .post('/api/submit-form')

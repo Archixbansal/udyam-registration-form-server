@@ -1,4 +1,4 @@
-// server/index.js
+
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -8,11 +8,9 @@ const app = express();
 const prisma = new PrismaClient();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
-app.use(cors()); // Allow cross-origin requests
-app.use(bodyParser.json()); // Parse incoming JSON data
 
-// Helper function for server-side validation
+app.use(cors()); 
+app.use(bodyParser.json()); 
 const validateFormData = (data) => {
   const { aadhaar, name, organizationType, pan } = data;
 
@@ -28,15 +26,14 @@ const validateFormData = (data) => {
   if (!pan || !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan)) {
     return { error: 'Invalid PAN Number' };
   }
-  return null; // Return null if validation passes
+  return null; 
 };
 
-// Test route
+
 app.get('/', (req, res) => {
   res.send('Server is running!');
 });
 
-// Form submission endpoint with validation and database logic
 app.post('/api/submit-form', async (req, res) => {
   const formData = req.body;
   console.log('Received form data:', formData);
@@ -63,7 +60,6 @@ app.post('/api/submit-form', async (req, res) => {
   }
 });
 
-// Start the server
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
